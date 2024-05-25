@@ -13,24 +13,18 @@ Gaussian Filter also called Gaussian blur in opencv,  is a low pass filter used 
 - From this definition, we can contribute a 2-D matrix that called Gaussian kernel and size is alway odd (e.g: 3x3. 5x5). E.g. we have below 3x3 gaussian kernel with sigma = 1, 
 
 - For step by step to create this kernel, let consider one random pixel and coordinate around this pixel with sigma = 1 
-> (−1,−1) (−1,0) (−1,1)
->
-> (0,−1) **(0,0)** (0,1)
->
-> (1,−1) (1,0) (1,1)
+<p> (−1,−1) (−1,0) (−1,1)<br />
+(0,−1) <strong>(0,0)</strong> (0,1) <br />
+(1,−1) (1,0) (1,1)</p>
 
 - Calculate each element of kernel
-> G(0,0)=1/(2*pi)=0.159
->
-> G(1,0)=G(−1,0)=G(0,1)=G(0,−1)=1/(2*pi)e^(-0.5)=0.097
->
-> G(1,1)=G(1,−1)=G(−1,1)=G(−1,−1)=1/(2*pi)e^(-1)=0.059
+<p>G(0,0)=1/(2*pi)=0.159<br />
+G(1,0)=G(−1,0)=G(0,1)=G(0,−1)=1/(2*pi)e^(-0.5)=0.097<br />
+G(1,1)=G(1,−1)=G(−1,1)=G(−1,−1)=1/(2*pi)e^(-1)=0.059</p>
 
 - Next step is normalize the kernel by diving each element with sum
 
 After normalization, the values approximate to:
-> 0.075 0.123 0.075
->
-> 0.123 0.203 0.123
->
-> 0.075 0.123 0.075
+<p>0.075 0.123 0.075<br />
+0.123 0.203 0.123<br />
+0.075 0.123 0.075</p>
