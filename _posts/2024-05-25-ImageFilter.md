@@ -10,7 +10,9 @@ In image processing, filter is important step to pre-process input image to remo
 Gaussian Filter also called Gaussian blur in opencv,  is a low pass filter used for reducing noise. First, let come with gaussian function definition:<br />
 ![Gaussian Filter formula](https://github.com/lexma1412/lexma1412.github.io/blob/main/assets/ImageFilter/Gaussian_formula.png?raw=true)
 
-- From this definition, we can contribute a 2-D matrix that called Gaussian kernel and size is alway odd (e.g: 3x3. 5x5). E.g. we have below 3x3 gaussian kernel with sigma = 1, 
+
+- From this definition, we can contribute a 2-D matrix that called Gaussian kernel and size is alway odd (e.g: 3x3. 5x5). E.g. we have below 3x3 gaussian kernel with sigma = 1:<br />
+![Gaussian Filter formula](https://github.com/lexma1412/lexma1412.github.io/blob/main/assets/ImageFilter/3x3GaussianKernel.png?raw=true)
 
 - For step by step to create this kernel, let consider one random pixel and coordinate around this pixel with sigma = 1 
 <p> (−1,−1) (−1,0) (−1,1)<br />
@@ -32,3 +34,4 @@ G(1,1)=G(1,−1)=G(−1,1)=G(−1,−1)=1/(2*pi)e^(-1)=0.059</p>
 # Gaussian filter function
 cv2.GaussianBlur(src, ksize, sigmaX[, dst[, sigmaY[, borderType]]]) ->	dst
 ```
+- If you want, you can create a Gaussian kernel with the function, cv.getGaussianKernel().
