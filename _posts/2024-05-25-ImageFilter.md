@@ -26,3 +26,9 @@ G(1,1)=G(1,−1)=G(−1,1)=G(−1,−1)=1/(2*pi)e^(-1)=0.059</p>
 <p>0.075 0.123 0.075<br />
 0.123 0.203 0.123<br />
 0.075 0.123 0.075</p>
+
+- For example code, let use function provided in python opencv
+```python
+# Gaussian filter function
+cv2.GaussianBlur(src, ksize, sigmaX[, dst[, sigmaY[, borderType]]]) ->	dst
+```
