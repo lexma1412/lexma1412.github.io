@@ -7,7 +7,7 @@ title:  "Image Filter"
 In image processing, filter is important step to pre-process input image to remove noise in input data. There are many filter techniques, this post will summarize some of them that supported in opencv library
 
 ## Gaussian Filter
-Gaussian Filter also called Gaussian blur in opencv,  is a low pass filter used for reducing noise. First, let come with gaussian function definition:<br />
+Gaussian Filter also called Gaussian blur in opencv,  is a low pass filter used for reducing noise. First, let see  gaussian function definition:<br />
 ![Gaussian Filter formula](https://github.com/lexma1412/lexma1412.github.io/blob/main/assets/ImageFilter/Gaussian_formula.png?raw=true)
 
 
@@ -35,3 +35,27 @@ G(1,1)=G(1,−1)=G(−1,1)=G(−1,−1)=1/(2*pi)e^(-1)=0.059</p>
 cv2.GaussianBlur(src, ksize, sigmaX[, dst[, sigmaY[, borderType]]]) ->	dst
 ```
 - If you want, you can create a Gaussian kernel with the function, cv.getGaussianKernel().
+
+## Sobel Filter
+Sobel filter is  High-pass filter, it will specify the **derivative (or gradient)** in X and Y direction by convolute with corresponding Sobel kernel.
+- 3x3 Sobel kernel for X direction:<br />
+<p>-1 0 1<br />
+-2 0 2<br />
+-1 0 1</p>
+
+- 3x3 Sobel kernel for X direction:<br />
+<p>-1 -2 -1<br />
+0 0 0<br />
+1 2 1</p>
+
+- Magnitude of gradient vector can be calculated as: sqrt(Gx^2+Gy*2)
+
+## Laplacian Filter
+Laplacian filter is  High-pass filter, it will specify the 2nd order derivative.
+
+- In opencv, it specifies 2 approaches to calculate 2nd order derivative
+* (1)Using below kernel as a filter kernel and convolute 1 time only:
+
+* (2)Using Sobel kernel to calculate 1st and also for 2nd derivative:
+
+
