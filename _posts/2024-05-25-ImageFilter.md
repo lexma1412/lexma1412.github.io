@@ -37,7 +37,7 @@ cv2.GaussianBlur(src, ksize, sigmaX[, dst[, sigmaY[, borderType]]]) ->	dst
 - If you want, you can create a Gaussian kernel with the function, cv.getGaussianKernel().
 
 ## Sobel Filter
-Sobel filter is  High-pass filter, it will specify the **derivative (or gradient)** in X and Y direction by convolute with corresponding Sobel kernel.
+Sobel filter is  High-pass filter, it will specify the **derivative (or gradient)**  Gx, GY in X and Y direction by convolute with corresponding Sobel kernel.
 - 3x3 Sobel kernel for X direction:<br />
 <p>-1 0 1<br />
 -2 0 2<br />
@@ -50,12 +50,26 @@ Sobel filter is  High-pass filter, it will specify the **derivative (or gradient
 
 - Magnitude of gradient vector can be calculated as: sqrt(Gx^2+Gy*2)
 
+```python
+cv.Sobel(src, ddepth, dx, dy[, dst[, ksize[, scale[, delta[, borderType]]]]]) ->dst
+```
+
+
 ## Laplacian Filter
 Laplacian filter is  High-pass filter, it will specify the 2nd order derivative.
 
 - In opencv, it specifies 2 approaches to calculate 2nd order derivative
-* (1)Using below kernel as a filter kernel and convolute 1 time only:
+* (1)Using below Laplacian kernel as a filter kernel and convolute 1 time only:
+<p>0 -1 0<br />
+-1 4 -1<br />
+0 -1 0</p>
+- Other kind of Laplacian kernel you can found when searching is :
+<p>-1 -1 -1<br />
+-1 8 -1<br />
+-1 -1 -1</p>
 
-* (2)Using Sobel kernel to calculate 1st and also for 2nd derivative:
+* (2)Using Sobel kernel to calculate 1st and also for 2nd derivative.
 
-
+```python
+cv.Laplacian(src, ddepth[, dst[, ksize[, scale[, delta[, borderType]]]]]) ->dst
+```
