@@ -53,3 +53,21 @@ Below image demonstrates simple sequence for UDS
 ### REFERENCE
 [1] https://www.csselectronics.com/pages/uds-protocol-tutorial-unified-diagnostic-services#diagnostic-protocols
 [2] ISO-14229-1
+
+---
+layout: default
+title:  "UDS Overview"
+---
+
+## Read DTC Information-SID=0x19
+Purpose of this service is to read DTC including snapshot and extend data<br />
+This service has sub-function byte with range from 0x00... 0x7F, the definition of each value is defined in ISO14229-1 Table 269, I highlight some subfunction byte that important to me.
+
+| Sub function byte | Description        |
+|:----------------- |:------------------|
+| 0x01              | **reportNumberOfDTCByStatusMask**<br />TThis parameter specifies that the server shall transmit to the client the number of DTCs matching a client defined status mask.|
+| 0x02              | **reportDTCByStatusMask**<br />This parameter specifies that the server shall transmit to the client a list of  DTCs and corresponding statuses matching a client defined status mask.    |
+| 0x04              | **reportDTCSnapshotRecordByDTCNumber**<br />This parameter specifies that the server shall transmit to the client the DTCSnapshot record(s) associated with a client defined DTC number and DTCSnapshot record number (0xFF for all records).     |
+| 0x06              | **reportDTCExtDataRecordByDTCNumber**<br /> This parameter specifies that the server shall transmit to the client the DTCExtendedData record(s) associated with a client defined DTC number and DTCExtendedData record number (0xFF for all records, 0xFE for all OBD records).|
+
+### SID=0x19, Subfunction=0x04
