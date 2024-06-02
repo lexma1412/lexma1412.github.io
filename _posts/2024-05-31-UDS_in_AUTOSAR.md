@@ -58,3 +58,6 @@ This setting, Dem module shall not use a Dem internal debounce mechanism for eac
 
 ## Event related data
 In Dem Autosar, : snapshot data (freeze frames) and extended data are called related data
+
+### REFERENCE
+[1] Autosar Diagnostic Event Manager R22-11

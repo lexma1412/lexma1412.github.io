@@ -132,7 +132,5 @@ In other post, I will discuss about Extended data: Occurence counter, Aging coun
 |4~n	|dataRecord|	0x00-0xFF|
 
 
-
-
 ## REFERENCE
 https://piembsystech.com/read-dtc-information-service-0x19-uds-protocol/
