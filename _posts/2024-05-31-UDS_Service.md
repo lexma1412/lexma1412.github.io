@@ -25,6 +25,8 @@ This service has sub-function byte with range from 0x00... 0x7F, the definition 
 |**statusOfDTC**:<br/> The status of a particular DTC, Bits that are not supported by the server shall be reported as '0'.|
 
 ### SID=0x19, Subfunction=0x04
+When Subfunction=0x04, SID 0x19 used to read Snapshot
+
 * **Request frame format**
 
 |No. of bytes	|Description	|Byte value|
@@ -67,6 +69,7 @@ This service has sub-function byte with range from 0x00... 0x7F, the definition 
 |3	|Response code|0x00–0xFF|
 
 ### SID=0x19, Subfunction=0x06
+When Subfunction=0x06, SID 0x19 used to read Extend data
 
 * **Request frame format**
 
@@ -109,6 +112,7 @@ In other post, I will discuss about Extended data: Occurence counter, Aging coun
 
 
 ## Read Data by Identifier-SID=0x22
+This service used to read DID
 
 * **Request frame format**
 
@@ -131,6 +135,38 @@ In other post, I will discuss about Extended data: Occurence counter, Aging coun
 |3	|DataIdentifierByte#2LSB|	0x00-0xFF|
 |4~n	|dataRecord|	0x00-0xFF|
 
+## Diagnostic Session Control-SID=0x10
+This service used to request different diagnostic session. Basically, ISO14229-1 defines 2 basic sessions: default session and other session.The number of service can be request in each session (default or other) is defined in ISO14229.
+1. Default session: server default enter this session when power up
+1. Other session: defined by OEM, other session can be 1 or more session, e.g: extend, coding session,..  
+
+* **Request frame format**
+
+|No. of bytes   |Description    |Byte value|
+|:--------------|:--------------|:---------|
+|1	|SID	|0x10|
+|2	|diagnosticSessionType	|0x00-0xFF|
+
+
+## Tester Present-SID=0x3E
+This service is used to indicate to a server (or servers) that a client is still connected to the vehicle and that certain diagnostic services and/or communication that have been previously activated are to remain active. 
+This service is used to keep one or multiple servers in a diagnostic session other than the defaultSession. This can either be done by transmitting the TesterPresent request message periodically or in case of the absence of other diagnostic services to prevent the server(s) from automatically returning to the defaultSession.
+
+
+* **Request frame format**
+
+|No. of bytes   |Description    |Byte value|
+|:--------------|:--------------|:---------|
+|1	|SID	|0x3E|
+|2	|zeroSubFunction	|0x00/0x80|
+
+* **Response frame format**
+
+|No. of bytes   |Description    |Byte value|
+|:--------------|:--------------|:---------|
+|1	|SID	|0x3E|
+|2	|zeroSubFunction	|0x00|
 
 ## REFERENCE
-https://piembsystech.com/read-dtc-information-service-0x19-uds-protocol/
+[1] ISO14229-1
+[2] https://piembsystech.com/read-dtc-information-service-0x19-uds-protocol/

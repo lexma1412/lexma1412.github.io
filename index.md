@@ -12,4 +12,5 @@ layout: default
 [UDS in AutoSar]({% link _posts/2024-05-31-UDS_in_AUTOSAR.md %})<br />
 
 - Image Processing<br />
+[Image Gradient]({% link _posts/2024-06-02-ImageGradient.md %})
 [Image Filter]({% link _posts/2024-05-25-ImageFilter.md %})
