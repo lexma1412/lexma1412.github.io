@@ -167,6 +167,37 @@ This service is used to keep one or multiple servers in a diagnostic session oth
 |1	|SID	|0x3E|
 |2	|zeroSubFunction	|0x00|
 
+
+
+## Routine Control -SID=0x31
+The RoutineControl service is used by the client to execute a defined sequence of steps and obtain any relevant results. E.g.: it require the result of checking pre-condition or request peroforming self test,..In particular in the first case, it might be necessary to switch the server in a specific diagnostic session using the DiagnosticSessionControl service or to unlock the server using the SecurityAccess service prior to using the StartRoutine service.
+
+* **Request frame format**
+
+|No. of bytes   |Description    |Byte value|
+|:--------------|:--------------|:---------|
+|1	|SID 	|0x31|
+|2	|routineControlType	|0x01, 0x02, 0x03|
+|3	|routineIdentifierbyte#1MSB	|0x00-0xFF|
+|4	|routineIdentifierbyte#2LSB	|0x00-0xFF|
+|5..n  |routineControlOptionRecord |0x00–0xFF|
+
+routineIdentifier: ID of routine, it is specified by OEM<br />
+routineControlType: 0x01,0x02,0x03 is start/stop/routine result accordingly.<br />
+routineControlOptionRecord: this is optional, routine control may only run or sop when satisfy some precondition, these infor is requested via routineControlOptionRecord.
+
+* **Response frame format**
+
+|No. of bytes   |Description    |Byte value|
+|:--------------|:--------------|:---------|
+|1	|SID 	|0x31|
+|2	|routineControlType	|0x01, 0x02, 0x03|
+|3	|routineIdentifierbyte#1MSB	|0x00-0xFF|
+|4	|routineIdentifierbyte#2LSB	|0x00-0xFF|
+|5	|routineInfo	|0x00-0xFF|
+
+routineInfo: OEM specific and provides a mechanism for the vehicle manufacturer  to support generic external test equipment handling of all implemented routines 
+
 ## REFERENCE
 [1] ISO14229-1
 [2] https://piembsystech.com/read-dtc-information-service-0x19-uds-protocol/
