@@ -14,4 +14,5 @@ layout: default
 
 - Image Processing<br />
 [Image Gradient]({% link _posts/2024-06-02-ImageGradient.md %})<br />
-[Image Filter]({% link _posts/2024-05-25-ImageFilter.md %})
+[Image Filter]({% link _posts/2024-05-25-ImageFilter.md %})<br />
+[Image Moment]({% link _posts/2024-05-25-ImageFilter.md %})
