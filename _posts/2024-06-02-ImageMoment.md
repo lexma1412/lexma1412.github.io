@@ -9,7 +9,7 @@ This post introduces briefly about moment in image processing. Moment demonstrat
 # Moment
 In grayscale image, moment is defined as below:
 ![moment formula](https://github.com/lexma1412/lexma1412.github.io/blob/main/assets/ImageMoment/Moment_formula.png?raw=true)<br/>
-with $Mij$ is moment (i+j) order of image, $I(x,y)$ is intensity of pixel at position (x,y)<br/>
+with $$Mij$$ is moment (i+j) order of image, $I(x,y)$ is intensity of pixel at position (x,y)<br/>
 
 $M00$ is zero order moment, it provides the **area** value of considered object in image.To calculate it, we just need to sum all intensity of pixels of image or of interested region (object region) <br/>
 * $M00 =  \sum I(x,y)$
