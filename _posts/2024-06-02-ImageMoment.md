@@ -12,7 +12,7 @@ In grayscale image, moment is defined as below:
 with $Mij$ is moment (i+j) order of image, $I(x,y)$ is intensity of pixel at position (x,y)<br/>
 
 $M00$ is zero order moment, it provides the **area** value of considered object in image.To calculate it, we just need to sum all intensity of pixels of image or of interested region (object region) <br/>
-* $M00 =  \sum I(x,y)$
+* $$M00 =  \sum I(x,y)$$
 
 $M10$ and $M01$ is first order moment, base on that, the **centroid** of considered object is calculated as $(\overline{x},\overline{y}) =(M10/M00;M01/M00)$ with: 
 * $M10 = \sum_{x}\sum_{y}xI(x,y)$
