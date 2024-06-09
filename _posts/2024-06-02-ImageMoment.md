@@ -26,20 +26,20 @@ Next, we will introduce about **central moment $$\mu$$**, it provides crucial in
 The second order central moment:
 * $$\mu_{20} = M20 - \overline{x}M10$$
 * $$\mu_{02} = M02 - \overline{y}M01$$
-* $$\mu_{11} = M11 - \overline{x}M01 =  M11 - \overline{y}M10$$<br/>
+* $$\mu_{11} = M11 - \overline{x}M01 =  M11 - \overline{y}M10$$
 
 and so on...Base on $$\mu_{20}, \mu_{02}, \mu_{11}$$, covariant matrix of image is known with elements are $$\mu_{20}^{'}, \mu_{02}^{'}, \mu_{11}^{'}$$
 
 * $$\mu_{20}^{'}  = \mu_{20}/\mu_{00} = M20/M00 - \overline{x}^2$$
 * $$\mu_{02}^{'} = \mu_{02}/\mu_{00} = M02/M00 - \overline{y}^2$$
-* $$\mu_{11}^{'} = \mu_{11}/\mu_{00} =  M11/M00 - \overline{x} \overline{y}$$<br/>
+* $$\mu_{11}^{'} = \mu_{11}/\mu_{00} =  M11/M00 - \overline{x} \overline{y}$$
 
 where ($$\overline{x},\overline{y}$$) is centroid of object<br/>
 Central moment is **invariant translation**, it means that when object moving in the image, its central moment does not change (independence from its location).<br/>
 
 The angle of the eigenvector of covariant matrix provides information about the angle of object:
 
-* $$\theta = 1/2 tan^{-1}({2\mu_{11}}/{(\mu_{20} - \mu_{02})})$$<br/>
+* $$\theta = 1/2 tan^{-1}({2\mu_{11}^{'}}/{(\mu_{20}^{'} - \mu_{02}^{'})})$$<br/>
 
 Let go with example: TBD
 
@@ -56,5 +56,5 @@ Base on the central moment concept, Hu [3] proposes Translation/Scale/Rotation i
 
 ## Reference
 [1] Wiki: https://en.wikipedia.org/wiki/Image_moment <br/>
-[3] M. K. Hu, "Visual Pattern Recognition by Moment Invariants"
+[3] M. K. Hu, "Visual Pattern Recognition by Moment Invariants" <br/>
 [4] https://builtin.com/data-science/covariance-matrix
