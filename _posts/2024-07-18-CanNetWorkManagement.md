@@ -50,12 +50,12 @@ To indicate upper layer (NM) about current state of Can NM, CAN NM call callback
 |NM_NetworkMode| Notification that the network management has entered Network Mode.|
 |Nm_PrepareBusSleepMode|Notification that the network management has entered Prepare BusSleep Mode (or it means Leaving Network Mode).|
 
-In bus-sleep mode, if node recevied CanNM message on bus, CanNM will indicate to NM by calling calback **Nm_NetworkStartIndication**, NM will forward to ComM by calling **ComM_Nm_NetworkStartIndication**. In ComM, it will judge about the network wakeup and request to NM to CanNM via **Nm_PassiveStartup/CanNm_PassiveStartup** to make a transition modoe in CanNM.
+In bus-sleep mode, if node recevied CanNM message on bus, CanNM will indicate to NM by calling calback **Nm_NetworkStartIndication**, NM will forward to ComM by calling **ComM_Nm_NetworkStartIndication**. In ComM, it will judge about the network wakeup and request to NM to CanNM via **Nm_PassiveStartup/CanNm_PassiveStartup** to make a transition mode in CanNM.
 
 ## NM Message
 To keep Network still awake, NM is sent periodcally on bus, the structure of NM message:
 
-![Can NM message](https://github.com/lexma1412/lexma1412.github.io/blob/main/assets/CanNM/CanNM_Message.png?raw=true)
+![Can NM message](https://github.com/lexma1412/lexma1412.github.io/blob/main/assets/CanNM/CanNM_message.png?raw=true)
 
 ### Control bit Vector (CBV)
 
