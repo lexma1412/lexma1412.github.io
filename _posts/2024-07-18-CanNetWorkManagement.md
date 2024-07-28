@@ -24,6 +24,9 @@ CanNM also provide 2 addition state called <span style="color:red">**Network sta
 still request the network.
 
 ##  Operational Modes
+
+![Can NM mode](https://github.com/lexma1412/lexma1412.github.io/blob/main/assets/CanNM/CanNM_Mode.png?raw=true)
+
 ### Network Mode
 Network Mode consists of 3 internal states:
 * **Repeat Message State**: ensures any transition from Bus-Sleep or Prepare Bus-Sleep to the Network Mode becomes visible to the other nodes on the network. Additionally, it ensures that any node stays active for a minimum amount of time.
@@ -52,7 +55,11 @@ In bus-sleep mode, if node recevied CanNM message on bus, CanNM will indicate to
 ## NM Message
 To keep Network still awake, NM is sent periodcally on bus, the structure of NM message:
 
+![Can NM message](https://github.com/lexma1412/lexma1412.github.io/blob/main/assets/CanNM/CanNM_Message.png?raw=true)
+
 ### Control bit Vector (CBV)
+
+![Can NM Control bit Vector](https://github.com/lexma1412/lexma1412.github.io/blob/main/assets/CanNM/CanNM_ControlbitVector.png?raw=true)
 
 ### User data
 
@@ -74,7 +81,8 @@ transmitting any Network Management PDUs. To enable, set **CanNmPassiveModeEnabl
 Therefore, in passive mode, Normal Operation State/Ready Sleep State has no action (no need to send NM message).
 
 ## State change notification
-All changes of the AUTOSAR CanNm states shall be notified to the upper layer by calling callback function **Nm_StateChangeNotification** if parameter **CanNmStateChangeIndEnabled** is enabled.
+All changes of the AUTOSAR CanNm states shall be notified to the upper layer by calling callback function **Nm_StateChangeNotification** if parameter **CanNmStateChangeIndEnabled** is enabled. This way is optional.<br/>
+As mentioned above, main approach for each enter mode can notified via callback ComM_Nm_NetworkMode, ComM_Nm_BusSleepMode and ComM_Nm_PrepareBusSleepMode.
 
 ## Tranmission NM
 The tranmission NM message only possible if Passive Mode is disable (CanNmPassiveModeEnabled = False). For how to tranmission, refer User data configuration and Com User data configuration.
@@ -93,6 +101,18 @@ TBD
 TBD
 
 ## Bus sleep indication, synchronization
-TBD
+The “Remote Sleep Indication” denotes a situation, where a node in Normal
+Operations States finds all other nodes in the cluster are ready to sleep (in ReadySeep State). The node in Normal Operation State will still keep the bus awake. To enable, set parameter **CanNmRemoteSleepIndEnabled**<br/>
 
+With a call of Nm_RemoteSleepIndication CanNm notifies the module Nm that all
+nodes in the cluster are ready to sleep (the so-called ‘Remote Sleep Indication’)<br/>
+
+With a call of Nm_RemoteSleepCancellation CanNm notifies the module Nm that some
+nodes in the cluster are not ready to sleep anymore (the so-called ‘Remote Sleep
+Cancellation’).<br/>
+
+
+## Sequence diagram
+
+![Can NM coordinator](https://github.com/lexma1412/lexma1412.github.io/blob/main/assets/CanNM/CanNM_sqNMCoordination.png?raw=true)
 
