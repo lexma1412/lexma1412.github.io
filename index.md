@@ -15,7 +15,7 @@ layout: default
 [Communication(COM)]({% link _posts/2024-06-29-COM.md %})<br />
 [PDU Router(PduR)]({% link _posts/2024-07-18-PDURouter.md %})<br />
 [Can State Manager(CanSM)]({% link _posts/2024-07-18-CANStateManager.md %})<br />
-[Can Network Management(CanNM)]({% link _posts/2024-07-18-CanNetWorkManagement.md %})
+[Can Network Management(CanNM)]({% link _posts/2024-07-18-CanNetWorkManagement.md %})<br />
 [Mode Management]({% link _posts/2024-07-30-ModeManagement.md %})
 
 - Image Processing<br />
