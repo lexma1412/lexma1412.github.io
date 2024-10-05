@@ -16,6 +16,7 @@ layout: default
 [PDU Router]({% link _posts/2024-07-18-PDURouter.md %})<br />
 [Can State Manager]({% link _posts/2024-07-18-CANStateManager.md %})<br />
 [Can Network Management]({% link _posts/2024-07-18-CanNetWorkManagement.md %})
+[RTE Data consistency]({% link _posts/2024-10-03-RTE_DataConsistency.md %})
 
 - Image Processing<br />
 [Image Gradient]({% link _posts/2024-06-02-ImageGradient.md %})<br />
