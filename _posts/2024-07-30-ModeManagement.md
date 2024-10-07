@@ -52,8 +52,10 @@ In this use case, SWC request mode to BswM through configuration choice containe
 After performing action to change mode, BswM indicate mode to SWCs via ModeSwitch port **BswM_modeSwitchPort**
 
 ## Use case: SWC send mode to other SWCs
-In this use case, SWC handling mode control called mode manager. Sender/Receiver PPORT is created for each SWCs to request mode to mode manager SWC and ModeSwitch PPORT of mode manager SWC to indcate mode to all mode user SWCs.
+In this use case, SWC handling mode control called mode manager. Sender/Receiver PPORT is created for each SWCs to request mode to mode manager SWC and ModeSwitch PPORT of mode manager SWC to indcate mode to all mode user SWCs.<br/>
 
+<br/>**Todo**:<br/>
+-Add picture for post<br/>
 # Reference
 1. Guide to Mode Management
 2. BswM

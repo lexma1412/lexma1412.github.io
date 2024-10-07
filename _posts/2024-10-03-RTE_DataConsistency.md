@@ -2,7 +2,7 @@
 Concurrent accesses to shared data memory can cause data inconsistencies.
 In general this must be taken into account when several code entities accessing the same data memory are running in different contexts - in other words when systems using parallel (multicore) or concurrent (singlecore) execution of code are designed. 
 More general: Whenever task context-switches occur and data is shared between tasks or ISR2s, data consistency is an issue.</br> 
-AUTOSAR systems use operating systems according to the AUTOSAR-OS specification which is derived from the OSEK-OS specification. The Autosar OS specification defines a priority based scheduling to allow event driven systems. This means that tasks with higher priority levels or ISR2s are able to interrupt (preempt) tasks with lower priority level. 
+AUTOSAR systems use operating systems according to the AUTOSAR-OS specification which is derived from the OSEK-OS specification. The Autosar OS specification defines a priority based scheduling to allow event driven systems. This means that tasks with higher priority levels or ISR2s are able to interrupt (preempt) tasks with lower priority level.
 
 ![Data inconsistency example from RTE Autosar](https://github.com/lexma1412/lexma1412.github.io/blob/main/assets/RTE_DataConsistency/example.png?raw=true)
 
@@ -29,19 +29,67 @@ Rte_Enter()
 Access (read/modify/write) resource Y   
 Rte_Exit() 
 ``` 
-* If the SW designer wants to have the mutual exclusion for complete RunnableEntitys: can specify this by using the ExclusiveArea in the role "runsInside" in the AUTOSAR SW-C description. 
+* If the SW designer wants to have the mutual exclusion for complete RunnableEntitys: can specify this by using the ExclusiveArea in the role "runsInside" in the AUTOSAR SW-C description. <br/>
 Basic Software Module does not support case runinside ExclusiveArea. The assignment data consistency mechanism of ExclusiveArea is configure via **RteExclusiveAreaImplMechanism** parameter with value: ALL_INTERRUPT_BLOCKING/OS_INTERRUPT_BLOCKING/OS_RESOURCE/OS_SPINLOCK/NONE/RTE_PLUGIN corresponding with Interrupt blocking strategy/Usage of OS resources mechanism. 
 
 ## InterRunnableVariables
-InterRunnableVariables mechanism is one kind of copy strategy and be used to guarantee data consistency for communication between Runnables of one AUTOSAR. Simply, when exchange global data between Runnables,we need make sure the data inconsistency problem not happen.
+InterRunnableVariables mechanism is one kind of copy strategy and be used to guarantee data consistency for communication between Runnables of one AUTOSAR. Simply, when exchange global data between Runnables,we need make sure the data inconsistency problem not happen.<br/>
+
+InterRunnableVariables have a behavior corresponding to Sender/Receiver communication between AUTOSAR SW-Cs (or rather between Runnables of different AUTOSAR SW-Cs). <br/>
+But why not use Sender/Receiver communication directly instead? Purpose is data encapsulation / data hiding. Access to InterRunnableVariables of an AUTOSAR SW-C from other AUTOSAR SWCs is not possible and not supported by RTE. InterRunnableVariable content stays SW-C internal and so no other SW-C can use it. Especially not misuse it without understanding how the data behaves<br/>
+
 InterRunnableVariables has 2 types:
 1. **InterRunnableVariables with implicit behavior (implicitInterRunnableVariable)**: Focus of InterRunnableVariable with implicit behavior is to avoid concurrent accesses by redirecting second, third, accesses to data item copies.<br/>
--The Runnable IN data is stable during Runnable execution, which means that during an Runnable execution several read accesses to an implicitInterRunnableVariable always deliver the same data item value.<br/>
--The Runnable OUT data is forwarded to other Runnables not before
-Runnable execution has terminated, which means that during an Runnable execution write accesses to implicitInterRunnableVariable are not visible to other Runnables.
+-The Runnable IN data is stable during Runnable execution, which means that during an Runnable execution several read accesses to an implicitInterRunnableVariable always deliver the same data item value. (As actual experience, the description  from RTE autosar about multiple access/read inside one runnable does not change is not relevant and not be implemented in real RTE such as RTAS, see the e.g) <br/>
+-The Runnable OUT data is forwarded to other Runnables not before Runnable execution has terminated, which means that during an Runnable execution write accesses to implicitInterRunnableVariable are not visible to other Runnables.
+
+```
+SWC():
+    struct Irvdata1 = {
+        &InterRunnableVariable_1 ; copy data to be used Runnable_1
+        &InterRunnableVariable_1 ; copy data of Runnable_2
+        &InterRunnableVariable_1 ; copy data of Runnable_3
+    }
+    Runnable_1(): ; Runnable_1
+        data_1=Rte_IrvIRead_InterRunnableVariable_1() ; read InterRunnableVariable data_1 = &InterRunnableVariable_1
+        ... do something with data_1 
+    
+    Runnable_2(): ; Runnable_2
+        data_2=Rte_IrvIRead_InterRunnableVariable_1() ; read InterRunnableVariable data_2 = &InterRunnableVariable_1, data_2 can be != data_1
+        ... do something with data_2
+        ...
+        data_3=Rte_IrvIRead_InterRunnableVariable_1() ; read InterRunnableVariable data_2 = &InterRunnableVariable_1, data_3 can be != data_2 
+        ... do something with data_3
+
+    Runnable_3(): ; Runnable_3
+        ...
+        Rte_IrvIWrite_InterRunnableVariable_1(data) ; at the end of Runnable_3, write data to *InterRunnableVariable_1
+
+Task_10ms():
+
+    Runnable_1(): ; Task_10ms Call Runnable_1
+    
+    Runnable_2(): ;Task_10ms Call Runnable_2
+
+Task_5ms():
+    Runnable_3(): ; Task_10ms Call Runnable_3
+    
+```
 
 2. **InterRunnableVariables with explicit behavior (explicitInterRunnableVariable)**: Focus of InterRunnableVariables with explicit behavior is to block potential concurrent accesses to get data consistency.<br/>
--This mechanism is similar to Exclusive Areas, however autosar define with scope of inside one SWC only for convenient use.
+-This mechanism is similar to Exclusive Areas, however autosar define with scope of inside one SWC only for convenient use.<br/>
+
+```
+SWC():
+    Global InterRunnableVariable_1 // global data
+    Runnable_1():
+        data_1 = Rte_IrvWrite_InterRunnableVariable_1(data) ; write data to InterRunnableVariable_1
+
+    Runnable_2():
+        data_2 = Rte_IrvRead_InterRunnableVariable_1() ; read data from InterRunnableVariable_1
+```
+
+-**Actual experience**: In my experience when working with ETAS ISOLAR RTE, explicitInterRunnableVariable cannot be guaranteed if it is read-modify-write by one runnable, it means ETAS ISOLAR RTE does not provide solution or mechanism by itself to resolve the data consistency problem in RTE. In this case, ETAS ISOLAR RTE suggest user to implement Exclusive Areas instead.
 
 
 |InterRunnableVariables with implicit behavior|InterRunnableVariables with explicit behavior|
@@ -62,12 +110,8 @@ Task_001():
         Access read/write data_1
 ```
 * Interrupt blocking strategy:<br/>
--Interrupt blocking can be an appropriate means if collision avoidance is required
-for a very short amount of time. This might be done by disabling respectively
-suspending all interrupts, Os interrupts only or - if hardware supports it - only
-of some interrupt levels. In general this mechanism must be applied with care
-because it might influence SW in tasks with higher priority too and the timing of
-the complete system.
+-Interrupt blocking can be an appropriate means if collision avoidance is required for a very short amount of time. This might be done by disabling respectively suspending all interrupts, Os interrupts only or - if hardware supports it - only
+of some interrupt levels. In general this mechanism must be applied with care because it might influence SW in tasks with higher priority too and the timing of the complete system.
 * Usage of OS resources:<br/>
 -Usage of OS resources. Advantage in comparison to Interrupt blocking strategy is that less SW parts with higher priority are blocked. Disadvantage is that
 implementation might consume more resources (code, runtime) due to the more
