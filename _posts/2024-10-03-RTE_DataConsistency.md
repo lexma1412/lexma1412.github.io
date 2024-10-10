@@ -44,31 +44,37 @@ InterRunnableVariables has 2 types:
 -The Runnable OUT data is forwarded to other Runnables not before Runnable execution has terminated, which means that during an Runnable execution write accesses to implicitInterRunnableVariable are not visible to other Runnables.
 
 ```
+; example 3 runnable: 
+; Runnable_1: run in task 10ms, read InterRunnableVariable_1
+; Runnable_2: run in task 10ms, read InterRunnableVariable_1
+; Runnable_3: run in task 5ms, write InterRunnableVariable_1
 SWC():
     struct Irvdata1 = {
-        &InterRunnableVariable_1 ; copy data to be used Runnable_1
-        &InterRunnableVariable_1 ; copy data of Runnable_2
-        &InterRunnableVariable_1 ; copy data of Runnable_3
+        &R_InterRunnableVariable_1_R1 ; copy data to be used Runnable_1
+        &R_InterRunnableVariable_1_R2 ; copy data to be used of Runnable_2
+        &W_InterRunnableVariable_1_R3 ; data to be written by Runnable_3, W_InterRunnableVariable_1_R3 always equal to InterRunnableVariable_1
     }
     Runnable_1(): ; Runnable_1
-        data_1=Rte_IrvIRead_InterRunnableVariable_1() ; read InterRunnableVariable data_1 = &InterRunnableVariable_1
+        data_1=Rte_IrvIRead_InterRunnableVariable_1() ; read InterRunnableVariable_1, data_1 = &R_InterRunnableVariable_1_R1
         ... do something with data_1 
     
     Runnable_2(): ; Runnable_2
-        data_2=Rte_IrvIRead_InterRunnableVariable_1() ; read InterRunnableVariable data_2 = &InterRunnableVariable_1, data_2 can be != data_1
+        data_2=Rte_IrvIRead_InterRunnableVariable_1() ; read InterRunnableVariable_1, data_2 = &R_InterRunnableVariable_1_R2
         ... do something with data_2
         ...
-        data_3=Rte_IrvIRead_InterRunnableVariable_1() ; read InterRunnableVariable data_2 = &InterRunnableVariable_1, data_3 can be != data_2 
+        data_3=Rte_IrvIRead_InterRunnableVariable_1() ; read InterRunnableVariable_1, data_2 = &R_InterRunnableVariable_1_R2, data_3 equal to data_2 
         ... do something with data_3
 
     Runnable_3(): ; Runnable_3
         ...
-        Rte_IrvIWrite_InterRunnableVariable_1(data) ; at the end of Runnable_3, write data to *InterRunnableVariable_1
+        Rte_IrvIWrite_InterRunnableVariable_1(data) ; at the end of Runnable_3, write data to W_InterRunnableVariable_1_R3
 
 Task_10ms():
 
+    R_InterRunnableVariable_1_R1 = W_InterRunnableVariable_1_R3 ; copy data before call Runnable_1
     Runnable_1(): ; Task_10ms Call Runnable_1
-    
+
+    R_InterRunnableVariable_1_R2 = W_InterRunnableVariable_1_R3 ; copy data before call Runnable_2
     Runnable_2(): ;Task_10ms Call Runnable_2
 
 Task_5ms():
