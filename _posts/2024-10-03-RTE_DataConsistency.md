@@ -7,13 +7,16 @@ AUTOSAR systems use operating systems according to the AUTOSAR-OS specification 
 ![Data inconsistency example from RTE Autosar](https://github.com/lexma1412/lexma1412.github.io/blob/main/assets/RTE_DataConsistency/example.png?raw=true)
 
 The inconsistencies of data can happen in following interaction/communication cases: 
-|Number|Case|Description|Prevent Mechanism| 
-|:----|:----|:-----------|:----------------| 
-|1|Communication within one atomic AUTOSAR SW-C|Communication between Runnables of one atomic AUTOSAR SW-C running in different task/ISR2 contexts </br> where communication between these Runnables takes place via commonly accessed data. If the need to support data consistency by the RTE exists, </br> it must be specified by using the concepts of "ExclusiveAreas" or "InterRunnableVariables" only.|-ExclusiveAreas(Interrupt blocking strategy,  Usage of OS resources) <br/> -InterRunnableVariables(Copy strategy with implicit behaviour) <br/> -Sequential scheduling strategy <br/> -Task blocking strategy| 
-|2|Intra-partition communication between AUTOSAR SW-Cs|Sender/Receiver (S/R) communication between Runnables of different AUTOSAR SW-Cs using implicit or explicit data exchange can be realized by the RTE through commonly accessed RAM memory areas. <br/> Data consistency in Client/Server (C/S) communication can be put down to the same concepts as S/R communication. Data access collisions must be avoided. The RTE is responsible for guaranteeing data consistency|-Copy strategy (RTE implicit behaviour write/read port)| 
-|3|Inter-Partition communication|The RTE has to guarantee data consistency|Inter partition data communication using IOC</br> Inter partition data communication using Basic Software Scheduler </br> Accessing (Ld)Com and Det in multicore/multipartition configuration</br> Accessing NvM in multicore/multipartition configurations </br>Signaling and control flow support for inter partition communication </br>Trusted Functions </br> Memory Protection and Pointer Type Parameters in RTE API| 
-|4|Intra-ECU communication between AUTOSAR SW-Cs and BSW modules with AUTOSAR interfaces|This is a special case of the above two.|Refer above two| 
-|5|Inter ECU communication|COM has to guarantee data consistency for communication between ECUs on complete path between the COM modules of different ECUs. The RTE on each ECU has to guarantee that no data inconsistency might occur when it invokes COM send respectively receive calls supplying respectively receiving data items which are concurrently accessed by application via RTE API call, especially when queueing is used since the queues are provided by the RTE and not by COM.|No specify| 
+
+
+| **Number** | **Case** | **Description** | **Prevention Mechanism** |  
+|:--:|:------------------|:------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------|  
+| **1** | Communication within one atomic AUTOSAR SW-C | Communication between Runnables of one atomic AUTOSAR SW-C running in different task/ISR2 contexts, where data is commonly accessed. If RTE support is needed for data consistency, the use of "ExclusiveAreas" or "InterRunnableVariables" is required. | - ExclusiveAreas (Interrupt blocking, OS resources)<br/>- InterRunnableVariables (Copy strategy with implicit behavior)<br/>- Sequential scheduling strategy<br/>- Task blocking strategy |  
+| **2** | Intra-partition communication between AUTOSAR SW-Cs | Sender/Receiver (S/R) communication between Runnables of different AUTOSAR SW-Cs using implicit or explicit data exchange, realized by RTE through shared RAM. The same applies to Client/Server (C/S) communication. Data access collisions must be avoided by the RTE. | - Copy strategy (RTE implicit write/read port behavior) |  
+| **3** | Inter-Partition communication | The RTE guarantees data consistency. | - Inter-partition communication via IOC<br/>- Basic Software Scheduler<br/>- Accessing (Ld)Com, Det, NvM in multicore/multipartition configurations<br/>- Trusted Functions, Memory Protection, Pointer Parameters in RTE API |  
+| **4** | Intra-ECU communication between AUTOSAR SW-Cs and BSW modules with AUTOSAR interfaces | This is a special case of the above two scenarios. | Refer to the above two cases. |  
+| **5** | Inter-ECU communication | COM guarantees data consistency in communication between ECUs throughout the entire path. The RTE ensures no data inconsistency when invoking COM send/receive calls, especially when queuing is used since the queues are provided by the RTE and not by COM. | No specific mechanism mentioned |
+
 
 Let go through each mechanism in following sections. 
 
@@ -38,13 +41,14 @@ InterRunnableVariables mechanism is one kind of copy strategy and be used to gua
 InterRunnableVariables have a behavior corresponding to Sender/Receiver communication between AUTOSAR SW-Cs (or rather between Runnables of different AUTOSAR SW-Cs). <br/>
 But why not use Sender/Receiver communication directly instead? Purpose is data encapsulation / data hiding. Access to InterRunnableVariables of an AUTOSAR SW-C from other AUTOSAR SWCs is not possible and not supported by RTE. InterRunnableVariable content stays SW-C internal and so no other SW-C can use it. Especially not misuse it without understanding how the data behaves<br/>
 
+
 InterRunnableVariables has 2 types:
 1. **InterRunnableVariables with implicit behavior (implicitInterRunnableVariable)**: Focus of InterRunnableVariable with implicit behavior is to avoid concurrent accesses by redirecting second, third, accesses to data item copies.<br/>
--The Runnable IN data is stable during Runnable execution, which means that during an Runnable execution several read accesses to an implicitInterRunnableVariable always deliver the same data item value. (As actual experience, the description  from RTE autosar about multiple access/read inside one runnable does not change is not relevant and not be implemented in real RTE such as RTAS, see the e.g) <br/>
+-The Runnable IN data is stable during Runnable execution, which means that during an Runnable execution several read accesses to an implicitInterRunnableVariable always deliver the same data item value. <br/>
 -The Runnable OUT data is forwarded to other Runnables not before Runnable execution has terminated, which means that during an Runnable execution write accesses to implicitInterRunnableVariable are not visible to other Runnables.
 
 ```
-; example 3 runnable: 
+; example
 ; Runnable_1: run in task 10ms, read InterRunnableVariable_1
 ; Runnable_2: run in task 10ms, read InterRunnableVariable_1
 ; Runnable_3: run in task 5ms, write InterRunnableVariable_1
@@ -95,8 +99,7 @@ SWC():
         data_2 = Rte_IrvRead_InterRunnableVariable_1() ; read data from InterRunnableVariable_1
 ```
 
--**Actual experience**: In my experience when working with ETAS ISOLAR RTE, explicitInterRunnableVariable cannot be guaranteed if it is read-modify-write by one runnable, it means ETAS ISOLAR RTE does not provide solution or mechanism by itself to resolve the data consistency problem in RTE. In this case, ETAS ISOLAR RTE suggest user to implement Exclusive Areas instead.
-
+-**Actual experience**: In my experience when working with ETAS ISOLAR RTE, explicitInterRunnableVariable cannot be guaranteed if it is read-modify-write by one runnable, it means ETAS ISOLAR RTE does not provide solution or mechanism by itself to resolve the data consistency problem in RTE. In this case, ETAS ISOLAR RTE suggest users to implement Exclusive Areas by themselves instead.
 
 |InterRunnableVariables with implicit behavior|InterRunnableVariables with explicit behavior|
 |:----|:----|
