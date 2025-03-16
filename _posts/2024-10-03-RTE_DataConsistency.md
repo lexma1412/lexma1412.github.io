@@ -1,7 +1,7 @@
 # Data Consistency 
 Concurrent accesses to shared data memory can cause data inconsistencies.
 In general this must be taken into account when several code entities accessing the same data memory are running in different contexts - in other words when systems using parallel (multicore) or concurrent (singlecore) execution of code are designed. 
-More general: Whenever task context-switches occur and data is shared between tasks or ISR2s, data consistency is an issue.</br> 
+More general: Whenever task context-switches occur and data is shared between tasks or ISR2s, data consistency is an issue.<br/> 
 AUTOSAR systems use operating systems according to the AUTOSAR-OS specification which is derived from the OSEK-OS specification. The Autosar OS specification defines a priority based scheduling to allow event driven systems. This means that tasks with higher priority levels or ISR2s are able to interrupt (preempt) tasks with lower priority level.
 
 ![Data inconsistency example from RTE Autosar](https://github.com/lexma1412/lexma1412.github.io/blob/main/assets/RTE_DataConsistency/example.png?raw=true)
@@ -99,7 +99,7 @@ SWC():
         data_2 = Rte_IrvRead_InterRunnableVariable_1() ; read data from InterRunnableVariable_1
 ```
 
--**Actual experience**: In my experience when working with ETAS ISOLAR RTE, explicitInterRunnableVariable cannot be guaranteed if it is read-modify-write by one runnable, it means ETAS ISOLAR RTE does not provide solution or mechanism by itself to resolve the data consistency problem in RTE. In this case, ETAS ISOLAR RTE suggest users to implement Exclusive Areas by themselves instead.
+-**Actual experience**: In my experience when working with ETAS ISOLAR RTE, explicitInterRunnableVariable cannot be guaranteed by RTE if it is read-modify-write by one runnable, it means ETAS ISOLAR RTE does not provide solution or mechanism by itself to resolve the data consistency problem in RTE. In this case, ETAS ISOLAR RTE suggest users to implement Exclusive Areas by themselves instead.
 
 |InterRunnableVariables with implicit behavior|InterRunnableVariables with explicit behavior|
 |:----|:----|
