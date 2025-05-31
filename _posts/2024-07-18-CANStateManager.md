@@ -18,6 +18,7 @@ ComM_ModeType ComM_Mode
 )
 ```
 ComM_Mode parameter can be set to 1 of 3 values:
+
 |Value            |Description  |
 |:--------------|:--------------|
 |COMM_NO_COMMUNICATION| ComM state machine is in "No Communication" mode. Configured channel shall have no transmission or reception capability.|
@@ -56,6 +57,7 @@ CanIf_SetControllerMode(
     )
 ```
 ControllerMode can be 1 of 3 values:
+
 |Value          |Description    |
 |:--------------|:--------------|
 |CAN_CS_STARTED| CAN controller state STARTED. The function Can_SetControllerMode(CAN_CS_STARTED) shall set the hardware registers in a way that makes the CAN controller participating  on the network.|
