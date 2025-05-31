@@ -44,7 +44,8 @@ stop their network activity before the Bus-Sleep Mode is entered. In Prepare Bus
 Bus-Sleep Mode reduce spower consumption in the node when no messages are to be exchanged. The communication controller is switched into the sleep mode, respective wakeup mechanisms are activated and finally power consumption is reduced to the adequate level in the Bus-Sleep Mode.<br/>
 
 To indicate upper layer (NM) about current state of Can NM, CAN NM call callback function of NM, after that NM forward this indication to ComM via callback ComM_Nm_NetworkMode, ComM_Nm_BusSleepMode and ComM_Nm_PrepareBusSleepMode:
-|Function   |Description    |
+
+|Function       |Description    |
 |:--------------|:--------------|
 |NM_BusSleepMode|Notification that the network management has entered Bus-Sleep Mode.|
 |NM_NetworkMode| Notification that the network management has entered Network Mode.|
