@@ -130,4 +130,7 @@ sophisticated mechanism. Appropriateness of this mechanism may vary depending on
 same priorities to affected tasks, by assigning same internal OS resource to affected tasks or by configuring the tasks to be non-preemptive. This mechanism may be inappropriate in multi-partitioned systems.
 
 # Mechanism for partition data consistency
-TBD
+## Inter partition data communication using IOC
+The IOC (Inter OS-Application Communication) is a feature of the AUTOSAR OS, which provides a data oriented communication mechanism between partitions. The IOC provides communication buffers, queues, and protected access functions/macros to these buffers that can be used from any pre-configured partitions concurrently. The IOC offers communication of data to another core or between memory protected partitions with guarantee of data consistency
+
+![IOC concept](https://github.com/lexma1412/lexma1412.github.io/blob/main/assets/IOC.png?raw=true)

@@ -73,3 +73,4 @@ read access”, i.e. invoke an Rte_IRead, Rte_Read, Rte_DRead or Rte_Receive cal
 
 
 # 2. Multiple Data Elements
+A sender-receiver interface can contain one or more data elements.E.g. we have Data port with type is sender-receiver interface, we design it has 2 elements Speed and Frequency.
