@@ -4,6 +4,22 @@ Usually, the software state will be the same as the system state when we derive 
 + **During (or Action)**: the action will run continuously until the state machine matches the condition for a state transition to move to another state.<br>
 + **Exit**: the action will be run before moving to another state.<br>
 
+Pesudo code:
+```text
+STATE_A -> STATE_B
+If STATE is STATE_A
+    If trans_conditon_A_to_B is TRUE
+        STATE is STATE_B
+        perform STATE_A Exit
+    Else perform STATE_A During
+Else if STATE is STATE_B
+    If trans_conditon_B_to_A is TRUE
+        STATE is STATE_A
+        perform STATE_B Exit
+    Else perform STATE_B During
+End
+```
+
 A state machine manages many states, and one state can move to another when a specific condition is met; this is called a **state transition**.
 
 ## State machine in MATLAB Simulink
