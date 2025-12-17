@@ -55,7 +55,7 @@ e = prev_f + d
 f = e + a
 pre_f = f
 
-![Example resolving  Algebraic Loops when using Atomic subsystem](https://github.com/lexma1412/lexma1412.github.io/blob/main/assets/Subsystem_matlab_2.png?raw=true)
+![Example resolving Algebraic Loops when using Atomic subsystem](https://github.com/lexma1412/lexma1412.github.io/blob/main/assets/Subsystem_matlab_2.png?raw=true)
 
 
 
