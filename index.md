@@ -20,7 +20,7 @@ layout: default
 [RTE-SenderReceiver]({% link _posts/2024-05-10-RTE-SenderReceiver.md %})<br />
 
 - MATLAB topics<br />
-[State Machine and how to design State Machine in Matlab]({% link _posts/2025-06-01-StateMachineinMatlab.md %})
+[State Machine and how to design State Machine in Matlab]({% link _posts/2025-06-01-StateMachineinMatlab.md %})<br />
 [Subsystem design in Matlab]({% link _posts/20225-12-15-Subsystem.md %})
 
 
