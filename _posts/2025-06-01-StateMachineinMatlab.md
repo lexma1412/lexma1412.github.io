@@ -19,7 +19,7 @@ Else if STATE is STATE_B
     Else perform STATE_B During
 End
 ```
-
+Above pesudo code is always clearly as it is in case you are using MATLAB like C in stateflow, if you use flowchart or simulink state in stateflow, some notices should be awared, let discuss it later. 
 A state machine manages many states, and one state can move to another when a specific condition is met; this is called a **state transition**.
 
 ## State machine in MATLAB Simulink
@@ -27,4 +27,4 @@ So now we understand what a state machine is and its layout.
 
 ![State machine example](https://github.com/lexma1412/lexma1412.github.io/blob/main/assets/StateMachine.png?raw=true)<br/>
 
-Back to the example with 3 states: Standby, Ready, and Running. The condition for the state transition from Standby to Ready is that there is no error in the system. The condition for the state transition from Ready to Running is after 2 seconds. The condition for the state transition from Running to Standby is when an error occurs. The above image shows the implementation in MATLAB.
+Back to the example with 3 states: Standby, Ready, and Running. The condition for the state transition from Standby to Ready is that there is no error in the system. The condition for the state transition from Ready to Running is after 2 seconds. The condition for the state transition from Running to Standby is when an error occurs. The above image shows the implementation in MATLAB with stateflow block.
