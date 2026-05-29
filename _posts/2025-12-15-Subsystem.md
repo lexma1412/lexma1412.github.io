@@ -35,7 +35,7 @@ We have a Simulink model with 2 subsystems:
 
 ### Execution Order
 
-First, let's see the execution order that MATLAB shows us. Subsystem_A has 2 actions with a non-continuous order, whereas Atomic Subsystem_B has 2 consecutive actions. That's why we say "Atomic subsystems are executed as a single indivisible unit".
+First, let's see the execution order that MATLAB shows us. Subsystem_A has 2 actions with a non-continuous order, whereas Atomic Subsystem_B is judged as 1  action only. That's why we say "Atomic subsystems are executed as a single indivisible unit".
 
 ### Algebraic Loops
 
@@ -51,12 +51,15 @@ In other words, there is a signal that needs to be saved and used with its previ
 This impacts the execution order. As you can see, MATLAB determines that Atomic Subsystem_B needs to run at order (1) because it provides input for order (2) in Subsystem_A. However, at the beginning, there is no data from output f yet, which doesn't make sense. Thus, output f of Subsystem_A and the input of Atomic Subsystem_B are actually interdependent in the same software cycle.
 
 To resolve, we need to add a unit delay block in the path output f of Subsystem_A to input of Atomic Subsystem_B, in C code we can understand as following code:
+```
 e = prev_f + d
 f = e + a
 pre_f = f
+ ```
 
 ![Example resolving Algebraic Loops when using Atomic subsystem](https://github.com/lexma1412/lexma1412.github.io/blob/main/assets/Subsystem_matlab_2.png?raw=true)
 
+Therefore, without special reason (if you do not care about atomic execution or data exchange limit), using virtual subsystem instead of atomic subsystem.
 
 
 

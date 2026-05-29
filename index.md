@@ -23,6 +23,9 @@ layout: default
 [State Machine and how to design State Machine in Matlab]({% link _posts/2025-06-01-StateMachineinMatlab.md %})<br />
 [Subsystem design in Matlab]({% link _posts/2025-12-15-Subsystem.md %})<br />
 
+- BMS <br />
+[Battery Equivalent circuit and SOC]({% link _posts/2026-05-26-SoC_Battery.md %})<br />
+[Kalman filter for SOC]({% link _posts/2026-05-26-SoC_KalmanFilter.md %})<br />
 
 - Image Processing topics<br />
 [Image Gradient]({% link _posts/2024-06-02-ImageGradient.md %})<br />
