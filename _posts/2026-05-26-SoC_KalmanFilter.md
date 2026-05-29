@@ -170,8 +170,16 @@ $$
 
 Expanded:
 
+## Predict State
+
 $$
-\hat x_k^-=
+\hat x_k^-
+=
+\begin{bmatrix}
+\widehat{SOC}_k^- \\
+\widehat{V}_{RC,k}^-
+\end{bmatrix}
+=
 \begin{bmatrix}
 SOC_{k-1}
 -
